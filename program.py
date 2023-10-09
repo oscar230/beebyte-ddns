@@ -7,10 +7,9 @@ def myip() -> str:
     response: Response = requests.get("https://am.i.mullvad.net/ip")
     if response.status_code == 200:
         ip: str = response.text.lstrip().rstrip()
-        print("IP=" + ip)
         return ip
     else:
-        print("Could not get ip.")
+        print("Failed, could not get ip!")
         exit(-1)
 
 def update_ddns(hostnames, api_key) -> None:
@@ -24,9 +23,31 @@ def update_ddns(hostnames, api_key) -> None:
         }
         response: Response = requests.get(url, headers=headers)
         if response.status_code == 200:
-            print(f"Set\t{hostname} -> {ip}")
+            result: str = response.text.lstrip().rstrip()
+            if result == "good":
+                print(f"OK\t{hostname} -> {ip}")
+            elif result == "nochg":
+                print(f"No change, the IP for {hostname} may already be set to {ip} or this client might be considered abusive")
+            elif result == "badauth":
+                print("Bad authentication!")
+            elif result == "notfqdn":
+                print(f"{hostname} needs to be a fully qualified domain name (FQDN)")
+            elif result == "nohost":
+                print(f"{hostname} does not exist in the DDNS service for this user")
+            elif result == "numhost":
+                print("Too many hosts specified")
+            elif result == "abuse":
+                print(f"{hostname} is blocked for update abuse")
+            elif result == "badagent":
+                print("User agent incorrect or HTTP method not permitted")
+            elif result == "dnserr":
+                print("DNS error!")
+            elif result == "911":
+                print("Service faulty or under maintenance")
+            else:
+                print(f"Unkown return \"{result}\"")
         else:
-            print(f"Failed for hostname {hostname}! (HTTP Status {str(response.status_code)})")
+            print(f"Failed, HTTP status:{str(response.status_code)}")
 
 if __name__ == "__main__":
     api_key: str = sys.argv[1]
