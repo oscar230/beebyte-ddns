@@ -1,6 +1,5 @@
 import requests
 import sys
-from requests.auth import HTTPBasicAuth
 from requests import Response
 import base64
 
