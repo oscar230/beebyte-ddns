@@ -1,11 +1,6 @@
-import requests
 import sys
-from requests import Response
-import base64
 import myip
 import beebyte
-
-
 
 if __name__ == "__main__":
     api_key: str = sys.argv[1]

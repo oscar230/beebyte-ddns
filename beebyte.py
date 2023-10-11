@@ -1,8 +1,6 @@
 import requests
-import sys
 from requests import Response
 import base64
-import json
 
 USER_AGENT: str = "DDNS Script"
 
