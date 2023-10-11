@@ -2,18 +2,10 @@ import requests
 import sys
 from requests import Response
 import base64
-
-def myip() -> str:
-    response: Response = requests.get("https://am.i.mullvad.net/ip")
-    if response.status_code == 200:
-        ip: str = response.text.lstrip().rstrip()
-        return ip
-    else:
-        print("Failed, could not get ip!")
-        exit(-1)
+import myip
 
 def update_ddns(hostnames, api_key) -> None:
-    ip: str = myip()
+    ip: str = myip.ip()
     for hostname in hostnames.split(','):
         url = f"https://dynupdate.beebyte.se/nic/update?hostname{hostname}&myip={ip}"
         credentials: str = f"beebyte:{api_key}"
