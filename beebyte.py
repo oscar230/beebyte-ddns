@@ -19,7 +19,7 @@ def set_record(api_key: str, hostname: str, ip: str) -> None:
     }
     response: Response = requests.post(url, data=data, headers=headers)
     if response.status_code == 201:
-        print(f"Set {ip} for {hostname} (A-record)")
+        print(f"Set A-record {hostname} -> {ip}")
     else:
         print(f"Failed to create A-record! Got status code {response.status_code} and response text {response.text}")
         exit(-1)
