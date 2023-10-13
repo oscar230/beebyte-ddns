@@ -6,4 +6,4 @@ def ip() -> str:
         return response.text.strip()
     else:
         print("Failed, could not get ip!")
-        exit(-1)
+        return None

@@ -22,7 +22,6 @@ def set_record(api_key: str, hostname: str, ip: str) -> None:
         print(f"Set A-record {hostname} -> {ip}")
     else:
         print(f"Failed to create A-record! Got status code {response.status_code} and response text {response.text}")
-        exit(-1)
 
 def get_records_ip(api_key: str, hostname: str) -> list[str]:
     url = f"https://portal.beebyte.se/api/v1/domain/{hostname}/record/"
@@ -35,7 +34,7 @@ def get_records_ip(api_key: str, hostname: str) -> list[str]:
         return [obj["record_data"] for obj in response.json() if obj["record_type"] == "A"]
     else:
         print(f"Failed to get records for hostname {hostname}! Got status code {response.status_code} and response text {response.text}")
-        exit(-1)
+        return None
 
 def update_ddns(api_key: str, hostname: str, ip: str) -> None:
     url = f"https://dynupdate.beebyte.se/nic/update?hostname{hostname}&myip={ip}"
